@@ -44,7 +44,7 @@ public class Candy : MonoBehaviour, ICandy
 
         if (objetive != Vector3.zero)
         {
-            transform.position = Vector3.Lerp(transform.position, objetive, 4 * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, objetive, 5 * Time.deltaTime);
         }
     }
 
@@ -89,9 +89,16 @@ public class Candy : MonoBehaviour, ICandy
             }
             else
             {
-                SwappingCandy(previousSelected.gameObject);
-                previousSelected.DeselectCandy();
-                //SelectedCandy();
+                if (CanSwipe())
+                {
+                    SwappingCandy(previousSelected.gameObject);
+                    previousSelected.DeselectCandy();
+                }
+                else
+                {
+                    previousSelected.DeselectCandy();
+                    SelectedCandy();
+                }
             }
         }
     }
@@ -105,6 +112,35 @@ public class Candy : MonoBehaviour, ICandy
         objetive = newCandy.transform.position;
 
         compoCandy.objetive = transform.position;
+    }
+
+    private GameObject GetNeighbor(Vector2 direction)
+    {
+        RaycastHit2D hit2D = Physics2D.Raycast(transform.position, direction);
+
+        if(hit2D.collider != null)
+        {
+            return hit2D.collider.gameObject;
+        }
+
+        return null;
+    }
+
+    private List<GameObject> GetAllNeightbors()
+    {
+        List<GameObject> neightbors = new ();
+
+        foreach (Vector2 direction in adjacentDirections)
+        {
+            neightbors.Add(GetNeighbor(direction));
+        }
+
+        return neightbors;
+    }
+
+    private bool CanSwipe()
+    {
+        return GetAllNeightbors().Contains(previousSelected.gameObject);
     }
 }
 
