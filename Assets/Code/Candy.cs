@@ -10,7 +10,7 @@ public class Candy : MonoBehaviour
     private static Color selectedColor = new(0.5f, 0.5f, 0.5f, 1.0f);
     private static Candy previousSelected = null;
 
-    [SerializeField] private Image image;
+    [SerializeField] private SpriteRenderer image;
     [SerializeField] private bool isSelected = false;
 
     [SerializeField] private Vector2[] adjacentDirections = new Vector2[]
@@ -23,12 +23,7 @@ public class Candy : MonoBehaviour
 
     private void Awake()
     {
-        image = GetComponent<Image>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(image == null)
+            image = GetComponent<SpriteRenderer>();
     }
 }
