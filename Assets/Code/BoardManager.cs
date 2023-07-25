@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    [Header("General")]
     public static BoardManager sharedInstance;
     public List<GameObject> prefabs = new ();
     public GameObject currentBackground;
-    [SerializeField] private GameObject parentObjCandies;
     public int xSize, ySize;
     public float paddingX, paddingY;
 
-    private GameObject currentCandy;
     private int _idx = 1;
 
     [SerializeField] private GameObject[,] candies;
+
+    private GameObject currentCandy;
+    [SerializeField] private GameObject selectedCandy;
+    [SerializeField] private GameObject parentObjCandies;
 
     public bool isShifting { get; set; }
 
@@ -53,7 +56,7 @@ public class BoardManager : MonoBehaviour
                 GameObject newCandy = Instantiate(currentBackground,
                     new Vector3(startX + (offset.x * x),
                     startY + (offset.y * y), 0),
-                    currentBackground.transform.rotation
+                    currentBackground.transform.rotation, transform
                 );
                 newCandy.name = string.Format("Candy[{0}]-[{1}]", x, y);
 
@@ -65,7 +68,6 @@ public class BoardManager : MonoBehaviour
 
     private GameObject RandomCandy(GameObject currentObject, int x, int y)
     {
-        currentObject.transform.parent = transform;
         do
         {
             _idx = Random.Range(0, prefabs.Count);
