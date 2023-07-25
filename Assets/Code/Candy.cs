@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Candy : MonoBehaviour
 {
@@ -9,6 +8,8 @@ public class Candy : MonoBehaviour
 
     private static Color selectedColor = new(0.5f, 0.5f, 0.5f, 1.0f);
     private static Candy previousSelected = null;
+
+    [SerializeField] private Animator animator;
 
     [SerializeField] private SpriteRenderer image;
     [SerializeField] private bool isSelected = false;
@@ -25,5 +26,10 @@ public class Candy : MonoBehaviour
     {
         if(image == null)
             image = GetComponent<SpriteRenderer>();
+    }
+
+    public void SetEnabledAnimator(bool active)
+    {
+        animator.enabled = active;
     }
 }
