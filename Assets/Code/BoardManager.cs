@@ -57,32 +57,29 @@ public class BoardManager : MonoBehaviour
                 );
                 newCandy.name = string.Format("Candy[{0}]-[{1}]", x, y);
 
-                //var validateHoriVerti = (x > 0 && _idx == candies[x - 1, y].GetComponent<Candy>().idCandy);
-                //var validateVertiHori = (y > 0 && _idx == candies[x, y - 1].GetComponent<Candy>().idCandy);
-
-                _idx = Random.Range(0, prefabs.Count);
-
-                currentCandy = RandomCandy(newCandy, _idx);
+                currentCandy = RandomCandy(newCandy, x, y);
                 candies[x, y] = currentCandy;
-
-                candies[x, y].transform.parent = parentObjCandies.transform;
             }
         }
     }
 
-    private GameObject RandomCandy(GameObject currentObject, int idx)
+    private GameObject RandomCandy(GameObject currentObject, int x, int y)
     {
         currentObject.transform.parent = transform;
+        do
+        {
+            _idx = Random.Range(0, prefabs.Count);
+        } while ((x > 0 && _idx == candies[x - 1, y].GetComponent<Candy>().idCandy) ||
+                (y > 0 && _idx == candies[x, y - 1].GetComponent<Candy>().idCandy));
 
-
-        currentCandy = prefabs[idx];
+        currentCandy = prefabs[_idx];
 
         GameObject objectCandy = Instantiate(currentCandy,
             currentObject.transform.position, Quaternion.identity, parentObjCandies.transform);
 
         Candy objCandy = objectCandy.GetComponent<Candy>();
 
-        objCandy.idCandy = idx;
+        objCandy.idCandy = _idx;
 
         return objectCandy;
     }
