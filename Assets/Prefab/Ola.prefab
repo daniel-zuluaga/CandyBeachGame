@@ -166,7 +166,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idCandy: 0
-  image: {fileID: 3944916914210672001}
+  animator: {fileID: 3394693745066636620}
+  spriteRenderer: {fileID: 3944916914210672001}
   isSelected: 0
   adjacentDirections:
   - {x: 0, y: 1}
